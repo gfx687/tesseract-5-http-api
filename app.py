@@ -14,7 +14,8 @@ def ocr():
     image_file = request.files["image"]
     try:
         image = Image.open(image_file.stream)
-        text = pytesseract.image_to_string(image)
+        config = "--psm 13 -c tessedit_char_whitelist=0123456789./,"
+        text = pytesseract.image_to_string(image, config=config)
         return jsonify({"text": text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
